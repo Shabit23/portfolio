@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, send_file
 # import sqlite3
 import csv
 
@@ -27,7 +27,7 @@ def html_page(page_name):
 #         file = database.write(f'\n{email},{subject},{message}')
 
 def write_to_csv(data):
-    with open('database.csv', 'a', newline='') as database2:
+    with open('./database.csv', 'a', newline='') as database2:
         email = data["email"]
         subject = data["subject"]
         message = data["message"]
@@ -56,3 +56,8 @@ def submit_form():
             return 'Could not save to database.'
     else:
         return 'Something went wrong.'
+
+@app.route('/download.html')
+def downloadFile():
+    path = "./static/assets/M.S. Zaman Shabit_CV.pdf"
+    return send_file(path, as_attachment=True)
